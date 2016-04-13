@@ -15,9 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
-
 
 /**
  * Created by Christian on 29-3-2016.
@@ -52,9 +50,9 @@ public class Main extends Application {
         button3.setId("ExitButton");
         button3.addEventHandler(MouseEvent.MOUSE_CLICKED, new ExitEventHandler());
 
-        Label label1 = new Label("Score : " + checkCollision.score);
+        Label label1 = new Label("Score : ");
         label1.setMinWidth(100);
-        Label label2 = new Label("Accuracy : " + checkCollision.accuracy + "%");
+        Label label2 = new Label("Accuracy : % ");
         label2.setMinWidth(100);
 
         //Layout
@@ -127,7 +125,7 @@ public class Main extends Application {
                 enemy.setVelocity(20, 20);
                 enemy.setDirection();
                 enemy.setPosition(200, 220);
-                switch(Sprite.setDirection()) {
+                switch (Sprite.setDirection()) {
                     case 1:
                         enemy.addVelocity(-200, 0);
                         break;
@@ -162,16 +160,11 @@ public class Main extends Application {
                 enemy.setPosition(400, 240);
                 enemy.setVelocity(20, 20);
 
-            }
-
-
-                }
-            }
-        };
-
-        window.show();
+            window.show());
+        }
     }
-
+        }
+    }
     private class StartEventHandler implements EventHandler<Event> {
         public void handle(Event evt) {
             timer.start();
