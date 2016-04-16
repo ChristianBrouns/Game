@@ -1,12 +1,12 @@
 package game;
 
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;;
 import javafx.scene.control.Label;
@@ -15,21 +15,19 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import java.util.ArrayList;
 
 /**
  * Created by Christian on 29-3-2016.
  */
 public class Main extends Application {
     public static void main(String[] args) {
-        launch(args);
-    }
+        launch(args);}
 
     Pane playfieldLayer;
 
     @Override
     public void start(Stage stage) throws Exception {
-        Stage window = stage;
+        final Stage window = stage;
         window.setTitle("Game Title");
 
         playfieldLayer = new Pane();
@@ -71,118 +69,57 @@ public class Main extends Application {
         jawa.setFitWidth(150);
         jawa.setFitHeight(150);
         grid.add(jawa, 0, 6);
-        ImageView tat = new ImageView("Tatooine.jpg");
-        tat.setFitHeight(750);
-        tat.setFitWidth(750);
-        grid.add(tat, 1, 1, 31, 31);
 
-        final Sprite enemy = new Sprite();
-        enemy.setImage("JawaFace.png");
-        enemy.setPosition(400, 240);
-        enemy.setVelocity(20, 20);
+        //ImageView tat = new ImageView("Tatooine.jpg");
+        //tat.setFitHeight(750);
+        //tat.setFitWidth(750);
+        //grid.add(tat, 1, 1, 31, 31);
 
-        final ArrayList<Sprite> enemies = new ArrayList<>();
-
-        //Add to grid
-        grid.getChildren().addAll(playfieldLayer, button1, button2, button3, label1, label2);
         Scene scene = new Scene(grid, 930, 810);
         window.setScene(scene);
         scene.setCursor(Cursor.CROSSHAIR);
 
         //Get Mouse position on click
         scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                                    public void handle(MouseEvent event) {
-                                        event.getSceneX();
-                                        event.getSceneY();
-                                        Sprite.getSceneX();
-                                        Sprite.getSceneY();
-                                        return (Double (event.getSceneX()));
-                                        System.out.println(event.getSceneY());}
+            public void handle(MouseEvent event) {
+                event.getSceneX();
+                event.getSceneY();
+                System.out.println(event.getSceneY() + " " + event.getSceneX());
+            }
+        });
 
-                                        //Hit or miss?
+        grid.getChildren().addAll(playfieldLayer, button1, button2, button3, label1, label2);
 
-                                            int score = 1;
-                                            int shotsFired = 1;
-                                            int accuracy = score / shotsFired * 100;
-                                    public boolean checkCollision() {
-                                        if (Sprite.getSceneY() == event.getSceneY() && Sprite.getSceneX() == event.getSceneX()) {
-                                            score++;
-                                            shotsFired++;
-                                            return true;
-                                        } else {
-                                            shotsFired++;
-                                            return false;
-                                        }
+        window.show();
 
-            });
+    }
+        //Hit or miss?
 
-
-        final long startNanoTime = System.nanoTime();
-
-        AnimationTimer timer = new AnimationTimer() {
-            public void handle(long currentNanoTime) {
-                double t = (currentNanoTime - startNanoTime) / 1000000000.0;
-                enemy.setVelocity(20, 20);
-                enemy.setDirection();
-                enemy.setPosition(200, 220);
-                switch (Sprite.setDirection()) {
-                    case 1:
-                        enemy.addVelocity(-200, 0);
-                        break;
-                    case 2:
-                        enemy.addVelocity(200, 0);
-                        break;
-                    case 3:
-                        enemy.addVelocity(0, -200);
-                        break;
-                    case 4:
-                        enemy.addVelocity(0, 200);
-                        break;
-                    default:
-                        enemy.addVelocity(0, 0);
-                        break;
-
-                    reset();
-
-                    checkCollision();
-
-                    for (Sprite enemy : enemies)
-
+        //Timeline
+    private class StartEventHandler implements EventHandler<Event> {
+            public void handle(Event evt) {
+                boolean confirmStart = ConfirmStart.display("Start game", "happy hunting!");
+                if (confirmStart) {
+                    TimeLine.timeline.play();
+                    TimeLine.timer.start();
 
                 }
             }
-
-            //reset method for when Jawa is killed
-            public void reset() {
-                //the same initial setup as before
-                final Sprite enemy = new Sprite();
-                enemy.setImage("JawaFace.png");
-                enemy.setPosition(400, 240);
-                enemy.setVelocity(20, 20);
-
-            window.show());
         }
-    }
-        }
-    }
-    private class StartEventHandler implements EventHandler<Event> {
-        public void handle(Event evt) {
-            timer.start();
-        }
-    }
 
     private class StopEventHandler implements EventHandler<Event> {
         public void handle(Event evt) {
-            timer.stop();
+
         }
     }
 
     private class ExitEventHandler implements EventHandler<Event> {
         public void handle(Event evt) {
             boolean answer = ConfirmBox.display("Confirm exit", "Do you really want to quite?");
-            if(answer) {
-                Platform.exit();
+            if(answer){
+                Platform.exit(); }
             }
-        }}}
+    }
+}
 
 
